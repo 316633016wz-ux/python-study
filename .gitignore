@@ -1,0 +1,6 @@
+#python生成的缓存
+__pycache__/
+*.pyc
+
+#Claude内部配置
+.claude/

@@ -1,0 +1,300 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>Python Day 2 学习总结</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 16mm;
+    }
+    body {
+      font-family: "Microsoft YaHei", "SimSun", Arial, sans-serif;
+      color: #202124;
+      line-height: 1.65;
+      font-size: 14px;
+    }
+    h1 {
+      font-size: 26px;
+      margin: 0 0 12px;
+      color: #111827;
+      border-bottom: 2px solid #2563eb;
+      padding-bottom: 8px;
+    }
+    h2 {
+      font-size: 18px;
+      margin: 24px 0 8px;
+      color: #1f2937;
+    }
+    h3 {
+      font-size: 15px;
+      margin: 16px 0 6px;
+      color: #374151;
+    }
+    p {
+      margin: 6px 0;
+    }
+    ul, ol {
+      margin-top: 6px;
+      padding-left: 24px;
+    }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      background: #eef2ff;
+      padding: 1px 4px;
+      border-radius: 4px;
+      color: #1e3a8a;
+    }
+    pre {
+      font-family: Consolas, "Courier New", monospace;
+      background: #f6f8fa;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      padding: 10px 12px;
+      overflow: hidden;
+      white-space: pre-wrap;
+      line-height: 1.45;
+      font-size: 12.5px;
+    }
+    .note {
+      background: #fff7ed;
+      border-left: 4px solid #f97316;
+      padding: 8px 12px;
+      margin: 10px 0;
+    }
+    .ok {
+      background: #ecfdf5;
+      border-left: 4px solid #10b981;
+      padding: 8px 12px;
+      margin: 10px 0;
+    }
+    .page-break {
+      page-break-before: always;
+    }
+  </style>
+</head>
+<body>
+  <h1>Python Day 2 学习总结</h1>
+  <p>主题：判断、循环、输入、变量输出，以及你今天问到的几个关键问题。</p>
+  <p>适合背景：有一点 C 语言基础，正在转向 Python。</p>
+
+  <h2>1. 今天的核心目标</h2>
+  <ol>
+    <li>会写 <code>if / elif / else</code> 判断。</li>
+    <li>会写 <code>for</code> 循环。</li>
+    <li>会写 <code>while</code> 循环。</li>
+    <li>理解 Python 的缩进规则。</li>
+    <li>理解 Python 的变量和 C 语言变量的不同。</li>
+    <li>理解 Python 的 <code>print()</code> 和 C 语言 <code>printf()</code> 的不同。</li>
+  </ol>
+
+  <h2>2. 运行 Python 文件的基本流程</h2>
+  <p>在 VS Code 里写完代码之后，一定要先保存，再到 PowerShell 运行。</p>
+  <pre>Ctrl + S
+python day2.py</pre>
+  <p>如果报错：</p>
+  <pre>can't open file 'day2.py': [Errno 2] No such file or directory</pre>
+  <p>意思是：当前 PowerShell 所在文件夹里没有 <code>day2.py</code>。</p>
+  <p>解决方法：</p>
+  <pre>dir</pre>
+  <p>先看当前文件夹里有没有 <code>day2.py</code>。如果没有，就创建：</p>
+  <pre>notepad day2.py</pre>
+
+  <h2>3. if 判断</h2>
+  <p>Python 的判断写法：</p>
+  <pre>score = 85
+
+if score &gt;= 60:
+    print("及格")
+else:
+    print("不及格")</pre>
+  <p>对应 C 语言大概是：</p>
+  <pre>int score = 85;
+
+if (score &gt;= 60) {
+    printf("及格");
+} else {
+    printf("不及格");
+}</pre>
+  <p>区别：Python 不用大括号 <code>{}</code>，靠缩进判断代码属于谁。</p>
+
+  <h2>4. 多条件判断：elif</h2>
+  <p>Python 里的 <code>elif</code> 相当于 C 里面的 <code>else if</code>。</p>
+  <pre>score = 85
+
+if score &gt;= 90:
+    print("优秀")
+elif score &gt;= 80:
+    print("良好")
+elif score &gt;= 60:
+    print("及格")
+else:
+    print("不及格")</pre>
+
+  <h2>5. input 输入</h2>
+  <p><code>input()</code> 可以让用户输入内容。</p>
+  <pre>score = input("请输入你的成绩：")
+print(score)</pre>
+  <div class="note">
+    注意：<code>input()</code> 得到的默认是字符串，不是数字。
+  </div>
+  <p>如果要和数字比较，需要转成整数：</p>
+  <pre>score = input("请输入你的成绩：")
+score = int(score)</pre>
+
+  <h2>6. for 循环</h2>
+  <p>输出 0 到 4：</p>
+  <pre>for i in range(5):
+    print(i)</pre>
+  <p>输出 1 到 5：</p>
+  <pre>for i in range(1, 6):
+    print(i)</pre>
+  <p><code>range(1, 6)</code> 的意思是：从 1 开始，到 6 之前结束，所以包括 1、2、3、4、5。</p>
+
+  <h2>7. 计算 1 到 100 的和</h2>
+  <pre>total = 0
+
+for i in range(1, 101):
+    total = total + i
+
+print("1 到 100 的和是", total)</pre>
+  <p>也可以写成：</p>
+  <pre>total = 0
+
+for i in range(1, 101):
+    total += i
+
+print("1 到 100 的和是", total)</pre>
+  <p><code>total += i</code> 等价于 <code>total = total + i</code>。</p>
+
+  <h2>8. while 循环</h2>
+  <p><code>while</code> 的意思是：只要条件成立，就一直执行。</p>
+  <pre>count = 1
+
+while count &lt;= 5:
+    print(count)
+    count += 1</pre>
+
+  <h2>9. break</h2>
+  <p><code>break</code> 的意思是：提前结束循环。</p>
+  <pre>while True:
+    text = input("请输入内容，输入 q 退出：")
+
+    if text == "q":
+        break
+
+    print("你输入的是：", text)
+
+print("程序结束")</pre>
+
+  <div class="page-break"></div>
+
+  <h1>你今天问到的问题</h1>
+
+  <h2>问题 1：缩进是 2 个空格会出问题吗？</h2>
+  <p>不一定会出问题。Python 只要求同一层缩进保持一致。</p>
+  <p>例如下面代码通常也能运行：</p>
+  <pre>if score &gt;= 60:
+  print("及格")
+else:
+  print("不及格")</pre>
+  <p>但是新手强烈建议统一用 4 个空格：</p>
+  <pre>if score &gt;= 60:
+    print("及格")
+else:
+    print("不及格")</pre>
+  <div class="ok">
+    记忆：Python 缩进可以不是 4 个空格，但新手统一用 4 个空格最安全。
+  </div>
+
+  <h2>问题 2：为什么 VS Code 里 Tab 一下是两个空格？</h2>
+  <p>这是 VS Code 的设置问题。右下角可能显示 <code>Spaces: 2</code> 或 <code>Tab Size: 2</code>。</p>
+  <p>解决：</p>
+  <ol>
+    <li>点击 VS Code 右下角的 <code>Spaces: 2</code>。</li>
+    <li>选择 <code>Indent Using Spaces</code>。</li>
+    <li>选择 <code>4</code>。</li>
+  </ol>
+  <p>之后按一次 Tab，就会变成 4 个空格。</p>
+
+  <h2>问题 3：VS Code 里写完代码怎么保存？</h2>
+  <p>最常用的方法：</p>
+  <pre>Ctrl + S</pre>
+  <p>保存成功后，文件名旁边的小圆点会消失。</p>
+  <p>完整流程：</p>
+  <ol>
+    <li>在 VS Code 写代码。</li>
+    <li>按 <code>Ctrl + S</code> 保存。</li>
+    <li>回到 PowerShell。</li>
+    <li>运行 <code>python day2.py</code>。</li>
+  </ol>
+
+  <h2>问题 4：变量 total 怎么直接输出了？</h2>
+  <p>因为 <code>total</code> 前面已经被创建过了：</p>
+  <pre>total = 0</pre>
+  <p>然后循环里不断更新它：</p>
+  <pre>for i in range(1, 101):
+    total = total + i</pre>
+  <p>最后 <code>total</code> 里面保存的就是 5050，所以可以直接输出：</p>
+  <pre>print("1 到 100 的和是", total)</pre>
+
+  <h2>问题 5：C 语言前面要有变量声明，Python 为什么不用？</h2>
+  <p>C 语言需要先写类型：</p>
+  <pre>int total = 0;
+double length = 2.5;</pre>
+  <p>Python 不用提前声明类型，直接赋值：</p>
+  <pre>total = 0
+length = 2.5</pre>
+  <p>Python 会根据右边的值自动判断类型。</p>
+
+  <h2>问题 6：C 的 printf 和 Python 的 print 有什么区别？</h2>
+  <p>C 语言常用格式占位符：</p>
+  <pre>int total = 5050;
+printf("1 到 100 的和是 %d\n", total);</pre>
+  <p><code>%d</code> 表示整数，<code>%f</code> 表示小数，<code>%s</code> 表示字符串。</p>
+  <p>Python 可以直接用逗号输出变量：</p>
+  <pre>total = 5050
+print("1 到 100 的和是", total)</pre>
+  <p>以后还会常用 f-string：</p>
+  <pre>total = 5050
+print(f"1 到 100 的和是 {total}")</pre>
+
+  <h2>Day 2 作业</h2>
+  <h3>作业 1：判断成年人</h3>
+  <pre>age = input("请输入年龄：")
+age = int(age)
+
+if age &gt;= 18:
+    print("成年人")
+else:
+    print("未成年人")</pre>
+
+  <h3>作业 2：计算 1 到 n 的和</h3>
+  <pre>n = input("请输入 n：")
+n = int(n)
+
+total = 0
+
+for i in range(1, n + 1):
+    total += i
+
+print("1 到", n, "的和是", total)</pre>
+
+  <h3>作业 3：简易密码验证</h3>
+  <pre>password = "123456"
+
+for i in range(3):
+    user_input = input("请输入密码：")
+
+    if user_input == password:
+        print("登录成功")
+        break
+    else:
+        print("密码错误")</pre>
+
+  <h2>一句话总结</h2>
+  <div class="ok">
+    Day 2 的重点不是背语法，而是理解：Python 靠缩进组织代码，变量不用提前写类型，print 可以直接输出变量，循环可以让电脑重复帮你干活。
+  </div>
+</body>
+</html>
