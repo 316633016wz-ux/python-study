@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>GitHub 学习总结</title>
+<style>
+  body { font-family: "Microsoft YaHei", sans-serif; max-width: 860px; margin: 40px auto; padding: 0 20px; color: #333; line-height: 1.8; }
+  h1 { color: #24292e; border-bottom: 3px solid #0366d6; padding-bottom: 10px; }
+  h2 { color: #0366d6; margin-top: 40px; }
+  h3 { color: #444; }
+  code { background: #f6f8fa; padding: 2px 6px; border-radius: 4px; font-family: Consolas, monospace; font-size: 0.95em; }
+  pre { background: #f6f8fa; border-left: 4px solid #0366d6; padding: 16px; border-radius: 6px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  .tip { background: #fff8c5; border-left: 4px solid #f9c513; padding: 12px 16px; border-radius: 4px; margin: 16px 0; }
+  .warn { background: #ffebe9; border-left: 4px solid #cf222e; padding: 12px 16px; border-radius: 4px; margin: 16px 0; }
+  .ok { background: #dafbe1; border-left: 4px solid #1a7f37; padding: 12px 16px; border-radius: 4px; margin: 16px 0; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+  th { background: #0366d6; color: white; padding: 10px 14px; }
+  td { border: 1px solid #d0d7de; padding: 9px 14px; }
+  tr:nth-child(even) td { background: #f6f8fa; }
+  .flow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
+  .box { background: #0366d6; color: white; padding: 8px 18px; border-radius: 20px; font-size: 0.9em; }
+  .arrow { font-size: 1.4em; color: #888; }
+</style>
+</head>
+<body>
+
+<h1>🐙 GitHub 学习总结</h1>
+<p style="color:#888">学习日期：2026-06-18 &nbsp;|&nbsp; 学习时长：1天</p>
+
+<h2>一、Git 是什么？GitHub 是什么？</h2>
+<table>
+  <tr><th>工具</th><th>作用</th><th>类比</th></tr>
+  <tr><td>Git</td><td>本地版本控制工具</td><td>本地的"时光机"，记录每次修改</td></tr>
+  <tr><td>GitHub</td><td>代码云端托管平台</td><td>网盘 + 协作平台，存到云端可共享</td></tr>
+</table>
+<div class="tip">📌 Git 是工具，GitHub 是网站。离线也能用 Git，GitHub 只是存代码的地方之一。</div>
+
+<h2>二、完整工作流程</h2>
+<div class="flow">
+  <span class="box">git init</span><span class="arrow">→</span>
+  <span class="box">git add</span><span class="arrow">→</span>
+  <span class="box">git commit</span><span class="arrow">→</span>
+  <span class="box">git remote add</span><span class="arrow">→</span>
+  <span class="box">git push</span>
+</div>
+
+<h2>三、核心命令速查</h2>
+<table>
+  <tr><th>命令</th><th>作用</th><th>类比</th></tr>
+  <tr><td><code>git init</code></td><td>初始化本地仓库</td><td>建一本新日记本</td></tr>
+  <tr><td><code>git status</code></td><td>查看文件状态</td><td>看日记本目前写了啥</td></tr>
+  <tr><td><code>git add .</code></td><td>暂存所有修改</td><td>把草稿放进信封</td></tr>
+  <tr><td><code>git commit -m "说明"</code></td><td>提交，生成版本快照</td><td>封好信封并写备注</td></tr>
+  <tr><td><code>git log --oneline</code></td><td>查看提交历史</td><td>翻日记目录</td></tr>
+  <tr><td><code>git remote add origin URL</code></td><td>连接远程仓库</td><td>把邮局地址记下来</td></tr>
+  <tr><td><code>git push -u origin main</code></td><td>推送到 GitHub</td><td>把信寄出去</td></tr>
+  <tr><td><code>git pull</code></td><td>从远程拉取更新</td><td>收信</td></tr>
+</table>
+
+<h2>四、.gitignore 文件</h2>
+<p>放在项目根目录，告诉 Git 哪些文件<strong>不需要</strong>跟踪。</p>
+<pre><code># Python 常用忽略规则
+__pycache__/
+*.pyc
+.env
+.vscode/
+*.log</code></pre>
+<div class="tip">📌 <code>__pycache__</code> 是 Python 自动生成的缓存，不需要上传到 GitHub。</div>
+
+<h2>五、GitHub Token 认证</h2>
+<p>GitHub 2021年起不再支持密码推送，改用 <strong>Personal Access Token（PAT）</strong>。</p>
+<table>
+  <tr><th>概念</th><th>说明</th></tr>
+  <tr><td>Token 是什么</td><td>GitHub 生成的临时"门禁卡"，代替密码使用</td></tr>
+  <tr><td>在哪生成</td><td>GitHub → Settings → Developer Settings → Personal Access Tokens</td></tr>
+  <tr><td>需要哪个权限</td><td>勾选 <code>repo</code>（完整仓库权限）</td></tr>
+  <tr><td>只显示一次</td><td>生成后要立即保存，关掉页面就看不到了</td></tr>
+  <tr><td>Windows 会记住</td><td>第一次输入后凭据管理器自动保存，不用每次输</td></tr>
+</table>
+<div class="warn">⚠️ Token 不要分享给别人，丢了就在 GitHub 重新生成一个（旧的作废）。</div>
+
+<h2>六、国内网络问题解决</h2>
+<p>GitHub 在国内经常连不上，需要配置代理：</p>
+<pre><code># 设置 git 使用本地代理（端口改成自己的，Clash 默认 7890）
+git config --global http.proxy http://127.0.0.1:7890
+git config --global https.proxy http://127.0.0.1:7890
+
+# 取消代理（出国后或不用梯子时）
+git config --global --unset http.proxy
+git config --global --unset https.proxy</code></pre>
+
+<h2>七、今日完成成就</h2>
+<div class="ok">
+  ✅ 创建了人生第一个 GitHub 仓库：<strong>python-study</strong><br>
+  ✅ 完成了 git init → add → commit → push 完整流程<br>
+  ✅ 配置了 .gitignore<br>
+  ✅ 解决了国内网络代理问题<br>
+  ✅ 理解了 Token 认证机制
+</div>
+
+<h2>八、下次更新代码步骤</h2>
+<p>以后每次写完代码，只需三步：</p>
+<pre><code>git add .
+git commit -m "描述做了什么"
+git push</code></pre>
+<div class="warn">⚠️ 常见错误：<code>git add.</code>（错）→ <code>git add .</code>（对）<br>
+<code>add</code> 和 <code>.</code> 之间必须有空格，否则 git 认不出这个命令。</div>
+
+</body>
+</html>
