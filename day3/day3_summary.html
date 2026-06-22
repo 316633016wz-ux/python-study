@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Python Day 3 学习总结</title>
+<style>
+  body { font-family: "Microsoft YaHei", sans-serif; max-width: 860px; margin: 40px auto; padding: 0 20px; color: #333; line-height: 1.8; }
+  h1 { color: #306998; border-bottom: 3px solid #FFD43B; padding-bottom: 10px; }
+  h2 { color: #306998; margin-top: 36px; }
+  h3 { color: #444; }
+  code { background: #f3f3f3; padding: 2px 7px; border-radius: 4px; font-family: Consolas, monospace; font-size: 0.95em; }
+  pre { background: #f6f8fa; border-left: 4px solid #FFD43B; padding: 14px; border-radius: 6px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0; }
+  th { background: #306998; color: white; padding: 9px 14px; text-align: left; }
+  td { border: 1px solid #ddd; padding: 9px 14px; }
+  tr:nth-child(even) td { background: #f7f7f7; }
+  .tip { background: #e8f4fd; border-left: 4px solid #306998; padding: 10px 16px; border-radius: 4px; margin: 12px 0; }
+  .warn { background: #fff8e1; border-left: 4px solid #ffc107; padding: 10px 16px; border-radius: 4px; margin: 12px 0; }
+  .ok { background: #e6f7e6; border-left: 4px solid #28a745; padding: 10px 16px; border-radius: 4px; margin: 12px 0; }
+</style>
+</head>
+<body>
+
+<h1>🐍 Python Day 3 学习总结</h1>
+<p style="color:#888">主题：函数 · 字符串 · 列表 · 字典 &nbsp;|&nbsp; 日期：2026-06-22</p>
+
+<h2>一、函数 Function</h2>
+<p>C 里要声明返回类型，Python 直接用 <code>def</code>，靠缩进区分函数体。</p>
+<table>
+  <tr><th>C 语言</th><th>Python</th></tr>
+  <tr><td><code>int add(int a, int b)</code></td><td><code>def add(a, b):</code></td></tr>
+  <tr><td>要声明类型 + 花括号</td><td>不用类型，冒号 + 缩进</td></tr>
+</table>
+<pre><code>def add(a, b):
+    return a + b
+
+x = add(3, 5)   # x = 8</code></pre>
+
+<h2>二、字符串 String</h2>
+<p>Python 字符串自带方法，比 C 的 <code>string.h</code> 简单太多。</p>
+<table>
+  <tr><th>方法</th><th>作用</th><th>C 语言对应</th></tr>
+  <tr><td><code>len(s)</code></td><td>长度</td><td>strlen()</td></tr>
+  <tr><td><code>s.upper()</code> / <code>s.lower()</code></td><td>转大/小写</td><td>遍历 toupper()</td></tr>
+  <tr><td><code>s.replace(旧, 新)</code></td><td>替换</td><td>手写循环</td></tr>
+  <tr><td><code>s.split(分隔符)</code></td><td>切割成列表</td><td>strtok()</td></tr>
+  <tr><td><code>s.strip()</code></td><td>去两边空格</td><td>手写</td></tr>
+  <tr><td><code>"x" in s</code></td><td>判断是否包含</td><td>strstr()</td></tr>
+</table>
+<div class="tip">💡 <code>replace</code> 只替换指定内容，不影响大小写。</div>
+
+<h2>三、列表 List</h2>
+<p>类似 C 数组，但不用声明长度、可混放类型、支持负索引和切片。</p>
+<table>
+  <tr><th>操作</th><th>作用</th></tr>
+  <tr><td><code>fruits[0]</code></td><td>第一个元素</td></tr>
+  <tr><td><code>fruits[-1]</code></td><td>倒数第一个（C 做不到）</td></tr>
+  <tr><td><code>append(x)</code></td><td>末尾添加</td></tr>
+  <tr><td><code>insert(i, x)</code></td><td>指定位置插入</td></tr>
+  <tr><td><code>remove(x)</code></td><td>删除第一个值为 x 的元素</td></tr>
+  <tr><td><code>sort()</code></td><td>排序（直接改原列表）</td></tr>
+  <tr><td><code>列表[1:4]</code></td><td>切片，取索引 1~3（不含 4）</td></tr>
+</table>
+
+<h2>四、字典 Dict</h2>
+<p>键值对结构，C 里没有，要用结构体数组模拟。<strong>用键访问，不用数字索引。</strong></p>
+<pre><code>student = {"name": "小明", "age": 22}
+
+student["name"]          # 用键访问 → 小明
+student["goal"] = "AI"   # 添加新键值对
+"age" in student         # 判断键是否存在 → True
+
+for key in student:      # 遍历所有键
+    print(key, student[key])</code></pre>
+<div class="warn">⚠️ 易错点：字典<strong>没有数字索引</strong>。<code>stock[0]</code> 会报 KeyError，必须用键 <code>stock["苹果"]</code>。遍历直接 <code>for key in stock:</code>，不要加切片。</div>
+
+<h2>五、综合作业：水果库存</h2>
+<pre><code>def add_fruit(stock, name, count):
+    if name in stock:
+        stock[name] += count    # 已有则累加
+    else:
+        stock[name] = count     # 没有则新增
+
+stock = {}
+add_fruit(stock, "苹果", 5)
+add_fruit(stock, "香蕉", 3)
+add_fruit(stock, "橙子", 8)
+
+for key in stock:
+    print(f"{key}库存{stock[key]}个")
+
+print(f"共{len(stock)}种水果")</code></pre>
+<div class="ok">✅ 这道题综合用到了：函数 + 字典 + 遍历 + len()。加 <code>if name in stock</code> 判断让重复水果累加，是很好的细节。</div>
+
+<h2>六、今日掌握清单</h2>
+<div class="ok">
+  ✅ 函数：def / return / 调用<br>
+  ✅ 字符串：len / upper / lower / replace / split / strip / in<br>
+  ✅ 列表：索引 / 负索引 / append / insert / remove / sort / 切片<br>
+  ✅ 字典：键值对 / 访问 / 添加 / in / 遍历 / keys / values
+</div>
+
+<h2>七、下一站：Day 4</h2>
+<p>文件读写、路径、编码。</p>
+
+</body>
+</html>
