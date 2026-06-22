@@ -26,5 +26,8 @@ metadata:
 - `IndentationError`：检查缩进是否多了/少了/混用。
 - `SyntaxError`：检查括号、冒号、引号有没有漏。
 - `NameError`：检查变量名是否拼错，或前面没赋值。
+- `KeyError`：字典用错了——字典没有数字索引，必须用键访问（`d["苹果"]` 对，`d[0]` 错）；遍历直接 `for key in d:`，不要切片。
+
+**完整 VS Code 技巧 PDF：** D:\pythonstudy\vscode技巧\vscode_tips.pdf（含全部快捷键、Python 技巧、终端命令、报错排查表）。
 
 排查时遵守 [[teaching-style]]：指导改哪一行，不直接重写整个文件。
