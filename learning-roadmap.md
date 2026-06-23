@@ -13,14 +13,16 @@ metadata:
 - Day 1：PowerShell 基础、创建/运行 Python 文件、print、变量、简单计算。（已完成）
 - Day 2：if/elif/else、for、while、input、int()、break、缩进规则。（已完成）
 - Day 3：函数、字符串、列表、字典。（已完成，总结 PDF 在 D:\pythonstudy\day3\day3_summary.pdf）
-- Day 4：文件读写、路径、编码。
+- Day 4：文件读写、路径、编码。（已完成，总结见下方知识点）
 - Day 5：Python 基础综合练习。
 - Day 6–Day 9：CSV、pandas、matplotlib、数据分析。
 - Day 10–Day 13：AI/大模型基础、Prompt、Embedding、RAG、API 调用。
 - Day 14–Day 18：AI + 力学/CAE 小项目。
 - Day 19 以后：简历、项目包装、投递和面试准备。
 
-**当前进度（截至 2026-06-22）：** Day 1–3 全部完成，下一步 Day 4（文件读写、路径、编码）。Git/GitHub 已学完并推送成功，相关 PDF 已生成。
+**当前进度（截至 2026-06-23）：** Day 1–4 全部完成，下一步 Day 5（Python 基础综合练习）。Git/GitHub 已学完并推送成功，相关 PDF 已生成。
+
+**Day 4 知识点（文件读写、路径、编码）：** open() 三件事（建通道/读写/关闭）；with 语句自动关文件；三种模式 r（只读，不存在报错）/w（清空重写）/a（末尾追加）；读取方式 read()全部、readlines()返回列表、for line in f 逐行省内存；相对路径 vs 绝对路径，r"..." 让 \ 不被转义；新工具 strip()去首尾空白、print(x,end='')不换行、f-string f"{值}"、len()拿个数；for 循环核心：容器决定怎么切（列表→元素、字典→键、文件→按\n分行），变量名随便取。练习文件 D:\pythonstudy\day4\day4practice.py（读 output.txt 统计行数写入 result.txt）。
 
 **Git/GitHub 学习进度（已全部完成）：**
 - git init / .gitignore / add / commit / remote / branch -M main 全部学过

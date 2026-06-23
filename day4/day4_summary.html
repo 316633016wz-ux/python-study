@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: "Microsoft YaHei", sans-serif; color: #222; line-height: 1.7; padding: 40px 50px; }
+  h1 { color: #1a6fb5; border-bottom: 3px solid #1a6fb5; padding-bottom: 10px; }
+  h2 { color: #1a6fb5; margin-top: 28px; border-left: 5px solid #1a6fb5; padding-left: 12px; }
+  h3 { color: #444; margin-top: 18px; }
+  code { background: #f3f3f3; padding: 2px 6px; border-radius: 4px; color: #c7254e; font-family: Consolas, monospace; }
+  pre { background: #2d2d2d; color: #f8f8f2; padding: 14px 18px; border-radius: 6px; overflow-x: auto; font-family: Consolas, monospace; font-size: 13px; line-height: 1.5; }
+  pre code { background: none; color: inherit; padding: 0; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0; }
+  th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+  th { background: #1a6fb5; color: #fff; }
+  tr:nth-child(even) { background: #f5f9fc; }
+  .tip { background: #fff8e1; border-left: 4px solid #ffc107; padding: 10px 16px; margin: 14px 0; border-radius: 4px; }
+  .footer { margin-top: 40px; text-align: center; color: #999; font-size: 12px; border-top: 1px solid #eee; padding-top: 12px; }
+</style>
+</head>
+<body>
+<h1>Day 4 学习总结：文件读写、路径、编码</h1>
+<p>日期：2026-06-23 &nbsp;|&nbsp; Python 学习计划 Day 4</p>
+
+<h2>1. 打开文件 open()</h2>
+<pre><code>open("文件名", "模式", encoding="utf-8")</code></pre>
+<p>三件事：<b>建通道 → 读/写 → 关闭</b>。中文文件始终加 <code>encoding="utf-8"</code>，否则乱码。</p>
+<p>原理（图书馆比喻）：open 像找到书，read 像把内容抄进笔记本（内存），关闭像还书。硬盘存的是字节，encoding 决定按什么规则把字节翻译成文字。</p>
+
+<h2>2. with 语句（推荐写法）</h2>
+<pre><code>with open("test.txt", "r", encoding="utf-8") as f:
+    content = f.read()
+# 块结束自动关文件，不用手写 f.close()</code></pre>
+<h2>3. 三种常用模式</h2>
+<table>
+  <tr><th>模式</th><th>作用</th><th>文件不存在时</th><th>文件存在时</th></tr>
+  <tr><td><code>r</code></td><td>只读</td><td>报错</td><td>正常读</td></tr>
+  <tr><td><code>w</code></td><td>写入</td><td>自动创建</td><td>清空重写</td></tr>
+  <tr><td><code>a</code></td><td>追加</td><td>自动创建</td><td>末尾添加</td></tr>
+</table>
+<div class="tip"><b>注意：</b><code>w</code> 会清空原文件，小心别覆盖重要内容。</div>
+
+<h2>4. 三种读取方式</h2>
+<table>
+  <tr><th>方法</th><th>返回</th><th>特点</th></tr>
+  <tr><td><code>f.read()</code></td><td>一个字符串</td><td>全部内容</td></tr>
+  <tr><td><code>f.readlines()</code></td><td>一个列表</td><td>每个元素是一行</td></tr>
+  <tr><td><code>for line in f</code></td><td>逐行</td><td>省内存，按 \n 分行</td></tr>
+</table>
+
+<h2>5. 路径</h2>
+<table>
+  <tr><th>类型</th><th>写法</th><th>说明</th></tr>
+  <tr><td>相对路径</td><td><code>"test.txt"</code></td><td>在当前运行目录找</td></tr>
+  <tr><td>绝对路径</td><td><code>r"D:\...\test.txt"</code></td><td>从盘符找，更稳</td></tr>
+</table>
+<p><code>r"..."</code>：前面加 r 让 <code>\</code> 不被当转义符，是 Windows 路径的标准写法。</p>
+
+<h2>6. 本日新工具</h2>
+<ul>
+  <li><code>line.strip()</code>：去掉首尾空白和 <code>\n</code></li>
+  <li><code>print(x, end='')</code>：打印后不自动换行（默认 end 是 <code>\n</code>）</li>
+  <li><code>f"...{值}..."</code>：f-string，自动把 <code>{}</code> 里的值填进去，数字也不用 str() 转换</li>
+  <li><code>len(列表)</code>：直接拿到元素个数</li>
+</ul>
+
+<h2>7. for 循环核心理解</h2>
+<pre><code>for 变量 in 容器:
+    循环体</code></pre>
+<ul>
+  <li><b>容器决定怎么切</b>：列表→元素、字典→键、文件→按 \n 分行、字符串→字符</li>
+  <li><b>变量名随便取</b>，Python 自动把切出来的东西赋值给它</li>
+</ul>
+
+<h2>8. 综合练习</h2>
+<p>读 output.txt 统计行数，写入 result.txt：</p>
+<pre><code>with open("output.txt", "r", encoding="utf-8") as f:
+    lines = f.readlines()
+
+with open("result.txt", "w", encoding="utf-8") as f:
+    f.write("文件内容：\n")
+    for line in lines:
+        f.write(line)
+    f.write(f"\n总行数为：{len(lines)}\n")</code></pre>
+
+<h2>常见报错</h2>
+<table>
+  <tr><th>报错</th><th>原因</th></tr>
+  <tr><td>FileNotFoundError</td><td>文件不存在或路径不对</td></tr>
+  <tr><td>TypeError: write() argument must be str</td><td>readlines() 是列表，write() 只收字符串，要逐行写或 "".join()</td></tr>
+</table>
+
+<div class="footer">Python 学习计划 · Day 4 · 文件读写、路径、编码</div>
+</body>
+</html>
