@@ -42,15 +42,17 @@
 - Day 2：if/elif/else、for、while、input、int()、break、缩进规则。（已完成）
 - Day 3：函数、字符串、列表、字典。（已完成，PDF：D:\pythonstudy\day3\day3_summary.pdf）
 - Day 4：文件读写、路径、编码。（已完成，知识点见下）
-- Day 5：Python 基础综合练习。
+- Day 5：Python 基础综合练习。（已完成，PDF：D:\pythonstudy\day5\day5_summary.pdf）
 - Day 6–Day 9：CSV、pandas、matplotlib、数据分析。
 - Day 10–Day 13：AI/大模型基础、Prompt、Embedding、RAG、API 调用。
 - Day 14–Day 18：AI + 力学/CAE 小项目。
 - Day 19 以后：简历、项目包装、投递和面试准备。
 
-**当前进度（截至 2026-06-23）：** Day 1–4 全部完成，下一步 **Day 5**（Python 基础综合练习）。
+**当前进度（截至 2026-06-24）：** Day 1–5 全部完成，下一步 **Day 6**（CSV 文件 + pandas 数据分析）。
 
 **Day 4 知识点：** open() 三件事（建通道/读写/关闭）；with 自动关文件；三种模式 r（只读，不存在报错）/w（清空重写）/a（末尾追加）；读取 read()全部、readlines()返回列表、for line in f 逐行省内存；相对路径 vs 绝对路径，r"..." 让 \ 不被转义；strip()去首尾空白、print(x,end='')不换行、f-string f"{值}"、len()拿个数；for 循环核心：容器决定怎么切（列表→元素、字典→键、文件→按\n分行），变量名随便取。练习文件 D:\pythonstudy\day4\day4practice.py。
+
+**Day 5 知识点：** 三个综合练习（学生成绩管理 day5.py、日记本 diary.py、猜数字游戏 guess.py）；try...except 错误处理（防崩溃）；datetime.now().strftime() 获取时间戳；random.randint(a,b) 随机数；文件追加模式 "a"；scores[name]=score 字典添加/修改；for name,score in scores.items() 遍历字典拿键值；split(",") 切字符串返回列表；strip() 去换行符（不然 int("85\n") 报错）；{avg:.2f} 浮点数保留 2 位小数；方法必须加 ()（items()、now()）；print(line,end="") 防止多打换行；from datetime import datetime 导入模块类似 C 的 #include。练习文件 D:\pythonstudy\day5\。
 
 ---
 
