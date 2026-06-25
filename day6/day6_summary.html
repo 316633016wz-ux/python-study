@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<style>
+  body {
+    font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #222;
+    margin: 40px;
+  }
+  h1 {
+    color: #1565c0;
+    border-bottom: 3px solid #1565c0;
+    padding-bottom: 8px;
+  }
+  h2 {
+    color: #1976d2;
+    margin-top: 28px;
+    border-left: 5px solid #1976d2;
+    padding-left: 10px;
+  }
+  code {
+    background: #f4f4f4;
+    color: #c7254e;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-family: Consolas, monospace;
+  }
+  pre {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 14px 0;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  th {
+    background: #e3f2fd;
+    color: #1565c0;
+  }
+  tr:nth-child(even) { background: #f9f9f9; }
+  .tip {
+    background: #fff8e1;
+    border-left: 5px solid #ffb300;
+    padding: 10px 14px;
+    margin: 14px 0;
+    border-radius: 4px;
+  }
+  .c-compare {
+    background: #e8f5e9;
+    border-left: 5px solid #43a047;
+    padding: 10px 14px;
+    margin: 14px 0;
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Day 6 学习总结：CSV 文件 + pandas 数据处理</h1>
+
+<p>本节学习了用 <strong>pandas</strong> 处理表格数据，这是数据分析和 AI 工作中最常见的任务。</p>
+
+<h2>1. 什么是 CSV 文件</h2>
+<p>CSV = Comma-Separated Values（逗号分隔值），是用逗号隔开的纯文本表格数据，可以用 Excel 打开。</p>
+<pre>姓名,语文,数学      ← 第一行是表头（列名）
+小明,85,90         ← 之后每行是一条记录
+小红,92,88
+小刚,78,85</pre>
+
+<h2>2. pandas 两个核心结构</h2>
+<table>
+  <tr><th>结构</th><th>含义</th><th>类比</th></tr>
+  <tr><td>DataFrame</td><td>整张表格（有行有列）</td><td>Excel 表 / 二维数组</td></tr>
+  <tr><td>Series</td><td>表格里的一列</td><td>一维数组</td></tr>
+</table>
+
+<h2>3. 深入理解 Series（一列数据）</h2>
+<p><strong>Series 就是 DataFrame 里的一列</strong>，是带行号的一维数据。你写 <code>df["语文"]</code> 得到的就是一个 Series：</p>
+<pre>0    85
+1    92
+2    78
+Name: 语文, dtype: int64</pre>
+<ul>
+  <li>左边 <code>0 1 2</code> 是<strong>索引</strong>（行号）</li>
+  <li>右边是<strong>值</strong></li>
+  <li><code>Name: 语文</code> 是这列的名字</li>
+  <li><code>dtype: int64</code> 是数据类型（整数）</li>
+</ul>
+<p>也可以单独创建一个 Series：</p>
+<pre>import pandas as pd
+
+s = pd.Series([85, 92, 78])
+print(s)</pre>
+<p>Series 常用方法：<code>s.mean()</code> 平均值、<code>s.max()</code> 最大值、<code>s.min()</code> 最小值、<code>s.sum()</code> 求和。</p>
+
+<div class="c-compare">
+<strong>Series 和 DataFrame 的关系：</strong><br>
+Series = 一列（一维）；DataFrame = 多个 Series 拼成的表格（二维）。<br>
+就像 C 语言里：一维数组 vs 二维数组。
+</div>
+
+<h2>4. 核心操作速查表</h2>
+<table>
+  <tr><th>操作</th><th>代码</th></tr>
+  <tr><td>导入 pandas</td><td><code>import pandas as pd</code></td></tr>
+  <tr><td>创建表格</td><td><code>pd.DataFrame(dict)</code></td></tr>
+  <tr><td>保存 CSV</td><td><code>df.to_csv("文件.csv", index=False, encoding="utf-8-sig")</code></td></tr>
+  <tr><td>读取 CSV</td><td><code>pd.read_csv("文件.csv", encoding="utf-8-sig")</code></td></tr>
+  <tr><td>取一列</td><td><code>df["列名"]</code></td></tr>
+  <tr><td>取多列</td><td><code>df[["列1", "列2"]]</code></td></tr>
+  <tr><td>筛选行</td><td><code>df[df["列名"] &gt; 值]</code></td></tr>
+  <tr><td>行列同时筛</td><td><code>df.loc[条件, "列名"]</code></td></tr>
+  <tr><td>平均值</td><td><code>df["列名"].mean()</code></td></tr>
+  <tr><td>最大值</td><td><code>df["列名"].max()</code></td></tr>
+  <tr><td>排序（降序）</td><td><code>df.sort_values("列名", ascending=False)</code></td></tr>
+  <tr><td>新增一列</td><td><code>df["新列"] = df["A"] + df["B"]</code></td></tr>
+  <tr><td>统计摘要</td><td><code>df.describe()</code></td></tr>
+</table>
+
+<h2>5. 第一个 pandas 程序</h2>
+<pre>import pandas as pd
+
+data = {
+    "姓名": ["小明", "小红", "小刚"],
+    "语文": [85, 92, 78],
+    "数学": [90, 88, 85]
+}
+
+df = pd.DataFrame(data)
+print(df)</pre>
+
+<h2>6. 重点理解：布尔索引</h2>
+<p><code>df["数学"] &gt; 88</code> 不是直接筛行，而是先返回一列 True/False：</p>
+<pre>0     True   ← 90 &gt; 88 是真
+1    False
+2    False</pre>
+<p>外面套 <code>df[...]</code> 的意思是「只保留 True 对应的行」：</p>
+<pre>df[df["数学"] &gt; 88]   # 只留下数学大于88的行</pre>
+
+<div class="c-compare">
+<strong>对比 C 语言：</strong><br>
+pandas 一行 <code>df[df["数学"] &gt; 88]</code> 等价于 C 里写 for 循环 + if 判断逐行检查，但 pandas 不用写循环。
+</div>
+
+<h2>7. 找最高/最低值对应的行</h2>
+<p>错误写法（会报错）：<code>df.loc[df["总分"].max(), "姓名"]</code><br>
+因为 <code>.max()</code> 返回的是数字（如 600000），被当成行号去找，找不到就报错。</p>
+<p>正确写法（两步）：</p>
+<pre>最高分 = df["总分"].max()
+print(df.loc[df["总分"] == 最高分, "姓名"])</pre>
+
+<h2>8. 常见报错与注意点</h2>
+<table>
+  <tr><th>问题</th><th>原因 / 解决</th></tr>
+  <tr><td>FileNotFoundError</td><td>当前目录没有该文件，检查文件名拼写和 cd 目录</td></tr>
+  <tr><td>KeyError: '列名'</td><td>列名拼错了，对照 DataFrame 里真实的列名</td></tr>
+  <tr><td>方法不生效 / TypeError</td><td>方法必须加括号：<code>.mean()</code> <code>.max()</code> <code>.describe()</code></td></tr>
+  <tr><td>Excel 打开中文乱码</td><td>保存时用 <code>encoding="utf-8-sig"</code></td></tr>
+  <tr><td>f-string 引号冲突</td><td>外层双引号，内层用单引号：<code>f"{df['列名']}"</code></td></tr>
+</table>
+
+<div class="tip">
+<strong>小贴士：</strong> <code>utf-8-sig</code> 比 <code>utf-8</code> 多了一个 BOM 标记，Windows 的 Excel 靠它识别 UTF-8 编码，避免中文乱码。有中文 + 要用 Excel 打开就用它。
+</div>
+
+<h2>9. 本节练习文件</h2>
+<p>D:\pythonstudy\day6\pandas_basic.py（基础练习）<br>
+D:\pythonstudy\day6\practice.py（综合练习）<br>
+D:\pythonstudy\day6\homework.py（作业：商品销售数据分析）</p>
+
+<hr>
+<p style="text-align:center; color:#888; font-size:12px;">Day 6 完成 · 下一步 Day 7：matplotlib 数据可视化</p>
+
+</body>
+</html>

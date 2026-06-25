@@ -43,7 +43,7 @@
 - Day 3：函数、字符串、列表、字典。（已完成，PDF：D:\pythonstudy\day3\day3_summary.pdf）
 - Day 4：文件读写、路径、编码。（已完成，知识点见下）
 - Day 5：Python 基础综合练习。（已完成，PDF：D:\pythonstudy\day5\day5_summary.pdf）
-- Day 6：CSV 文件、pandas 数据处理。（已完成，练习文件：D:\pythonstudy\day6\）
+- Day 6：CSV 文件、pandas 数据处理。（已完成，PDF：D:\pythonstudy\day6\day6_summary.pdf，练习文件：D:\pythonstudy\day6\）
 - Day 7–Day 9：matplotlib 可视化、数据分析综合。
 - Day 10–Day 13：AI/大模型基础、Prompt、Embedding、RAG、API 调用。
 - Day 14–Day 18：AI + 力学/CAE 小项目。
