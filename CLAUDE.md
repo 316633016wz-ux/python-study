@@ -43,12 +43,15 @@
 - Day 3：函数、字符串、列表、字典。（已完成，PDF：D:\pythonstudy\day3\day3_summary.pdf）
 - Day 4：文件读写、路径、编码。（已完成，知识点见下）
 - Day 5：Python 基础综合练习。（已完成，PDF：D:\pythonstudy\day5\day5_summary.pdf）
-- Day 6–Day 9：CSV、pandas、matplotlib、数据分析。
+- Day 6：CSV 文件、pandas 数据处理。（已完成，练习文件：D:\pythonstudy\day6\）
+- Day 7–Day 9：matplotlib 可视化、数据分析综合。
 - Day 10–Day 13：AI/大模型基础、Prompt、Embedding、RAG、API 调用。
 - Day 14–Day 18：AI + 力学/CAE 小项目。
 - Day 19 以后：简历、项目包装、投递和面试准备。
 
-**当前进度（截至 2026-06-24）：** Day 1–5 全部完成，下一步 **Day 6**（CSV 文件 + pandas 数据分析）。
+**当前进度（截至 2026-06-25）：** Day 1–6 全部完成，下一步 **Day 7**（matplotlib 数据可视化）。
+
+**Day 6 知识点：** CSV = 逗号分隔的纯文本表格；pandas 核心：DataFrame（表格）、Series（一列）；`pd.DataFrame(dict)` 创建表格；`df.to_csv()`保存、`pd.read_csv()`读取；`df["列名"]`取列、`df[条件]`筛行、`df.loc[条件,"列名"]`行列同时筛；布尔索引（条件返回 True/False，df[True/False] 只留 True 的行）；`df["列名"].mean()`均值；`df.sort_values("列名", ascending=False)`排序；`df["新列"]=表达式`新增列；`df.describe()`一行出全部统计；f-string 里嵌套引号要换成单引号；`encoding="utf-8-sig"` 防止 Excel 中文乱码。练习文件 D:\pythonstudy\day6\。
 
 **Day 4 知识点：** open() 三件事（建通道/读写/关闭）；with 自动关文件；三种模式 r（只读，不存在报错）/w（清空重写）/a（末尾追加）；读取 read()全部、readlines()返回列表、for line in f 逐行省内存；相对路径 vs 绝对路径，r"..." 让 \ 不被转义；strip()去首尾空白、print(x,end='')不换行、f-string f"{值}"、len()拿个数；for 循环核心：容器决定怎么切（列表→元素、字典→键、文件→按\n分行），变量名随便取。练习文件 D:\pythonstudy\day4\day4practice.py。
 
