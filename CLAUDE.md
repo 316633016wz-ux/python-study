@@ -51,7 +51,9 @@
 - Day 15–Day 19：AI + 力学/CAE 小项目。
 - Day 20 以后：简历、项目包装、投递和面试准备。
 
-**当前进度（截至 2026-06-26）：** Day 1–6 全部完成，下一步 **Day 7**（MySQL 数据库基础）。
+**当前进度（截至 2026-06-29）：** Day 1–7 全部完成，下一步 **Day 8**（Python 连接 MySQL）。
+
+**Day 7 知识点：** MySQL 数据库基础；CREATE DATABASE 建库、USE 选库；CREATE TABLE 建表（INT/VARCHAR/FLOAT 数据类型、PRIMARY KEY 主键、AUTO_INCREMENT 自增、NOT NULL 非空约束）；INSERT INTO 插入数据（单条/多条）；SELECT 查询（* 全部列、WHERE 条件筛选、ORDER BY 排序 ASC/DESC、LIMIT 限制行数）；UPDATE SET WHERE 更新数据；DELETE FROM WHERE 删除数据；统计函数 COUNT/AVG/MAX/MIN/SUM；DESC 查看表结构；UPDATE/DELETE 必须加 WHERE 否则全表受影响；所有标点必须英文半角；字符串用单引号；SQL 语句以分号结尾。练习文件：D:\pythonstudy\day7\，PDF：D:\pythonstudy\day7\day7_summary.pdf。
 
 **Day 6 知识点：** CSV = 逗号分隔的纯文本表格；pandas 核心：DataFrame（表格）、Series（一列）；`pd.DataFrame(dict)` 创建表格；`df.to_csv()`保存、`pd.read_csv()`读取；`df["列名"]`取列、`df[条件]`筛行、`df.loc[条件,"列名"]`行列同时筛；布尔索引（条件返回 True/False，df[True/False] 只留 True 的行）；`df["列名"].mean()`均值；`df.sort_values("列名", ascending=False)`排序；`df["新列"]=表达式`新增列；`df.describe()`一行出全部统计；f-string 里嵌套引号要换成单引号；`encoding="utf-8-sig"` 防止 Excel 中文乱码。练习文件 D:\pythonstudy\day6\。
 
@@ -102,7 +104,7 @@ weasyprint / xhtml2pdf 在用户 Python 3.8 环境下都失败。改用 Windows 
 
 流程：先写带内联 CSS 的 HTML，再用上面命令转 PDF。用户要 PDF 时直接帮他生成，不让他装库。
 
-**已生成的 PDF：** day3_summary.pdf、github学习/github_summary.pdf、vscode技巧/vscode_tips.pdf
+**已生成的 PDF：** day3_summary.pdf、day5_summary.pdf、day6_summary.pdf、day7_summary.pdf、github学习/github_summary.pdf、vscode技巧/vscode_tips.pdf
 
 ---
 
