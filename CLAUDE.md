@@ -2,6 +2,11 @@
 
 本文件是 Claude Code 每次开新对话自动加载的项目记忆。所有背景、教学方式、进度都以本文件为准，更新时只改这一份。
 
+**参考文档（需要时查询）：**
+- 环境与报错排查：`.docs/troubleshooting.md`
+- Git/GitHub 操作：`.docs/git_guide.md`
+- PDF 生成方法：`.docs/pdf_generation.md`
+
 ---
 
 ## 用户背景
@@ -9,17 +14,12 @@
 - 力学专业学生，会一点 C 语言，Python 初学者，在 VS Code + PowerShell（Windows）里学习。
 - 目标：找 **AI 大模型相关实习**。
 - 学习方向：Python 基础 → 数据处理 → 大模型应用 → AI + 力学/CAE 小项目。
-- 已掌握要点：
-  - Python 不能写 `count++`，要写 `count += 1`。
-  - `input()` 得到字符串，当数字用要 `int()` / `float()` 转换。
-  - `print` 在 `for` 缩进里会循环输出，放外面只输出最终结果。
-  - `print` 可以 `print("文字", 变量)`，也可以用 f-string，和 C 的 `printf` 不同。
 
 ---
 
 ## 教学方式（重要，必须遵守）
 
-**Why：** 用户目标是亲手学会，不是让我替他完成练习。讲解要让 Python 初学者听懂。
+**核心原则：** 用户目标是亲手学会，不是让我替他完成练习。讲解要让 Python 初学者听懂。
 
 ### 日常教学规则
 
@@ -34,34 +34,31 @@
 - 问"这段是什么意思"：逐行解释 + C 语言类比。
 - 问"怎么做"：给步骤和最小示例让他跟着做。
 - 连续卡很多次：可给参考答案，但要说明是参考答案，让他对照理解。
-- **主动监控上下文用量。** 对话变长、上下文快用满时，主动提醒"上下文快满了，建议先存进度再 /compact"。
 - 用中文回复。
 
-### ⚠️ 每天结束标准流程（必须执行，不能遗漏）
+### ⚠️ 每天结束标准流程（必须执行）
 
-**用户说"做完了"或完成练习后，必须按顺序完成以下 4 步：**
+**用户说"做完了"或完成练习后，必须按顺序完成以下 3 步：**
 
 1. **批改练习**：用 Read 工具读取用户练习文件，逐题批改，指出错误和亮点。
+
 2. **生成总结 PDF**：
    - 用 Write 工具创建 `dayX_summary.html`（带内联 CSS）
    - 用 Edge 无头模式转成 `dayX_summary.pdf`
    - HTML 内容必须包含：概念讲解、命令用法（每个命令的完整语法和参数说明）、示例代码、练习总结、常见错误
+
 3. **更新 CLAUDE.md**：
    - 更新"当前进度"（日期和完成天数）
    - 添加当天知识点总结（简明扼要，一段话）
-   - 更新"已生成的 PDF"列表
-4. **推送 GitHub**：
-   - `git add .`
-   - `git commit -m "完成DayX学习：简要说明"`
-   - `git push`
 
 **检查清单（每天结束前必看）：**
 - [ ] 练习批改完成
 - [ ] PDF 已生成（HTML → PDF 两步都完成）
-- [ ] CLAUDE.md 已更新（进度、知识点、PDF 列表）
-- [ ] GitHub 已推送
+- [ ] CLAUDE.md 已更新（进度、知识点）
 
-**如果用户说"最后部分""收尾""总结"等，立即执行这 4 步，不要问"要不要做总结"。**
+**注意：用户自己推送 GitHub，我不管这步。**
+
+**如果用户说"最后部分""收尾""总结"等，立即执行这 3 步，不要问"要不要做总结"。**
 
 ## 学习路线
 
@@ -90,56 +87,11 @@
 
 ---
 
-## 环境与报错排查
-
-**VS Code / 运行提醒：**
-- 写完代码先 Ctrl+S 保存，再到终端运行；文件名旁有小圆点 = 没保存。
-- Python 文件后缀必须 .py；运行时 PowerShell 当前目录里必须有该文件。
-- `dir` 看文件、`pwd` 看目录、`cd 路径` 进文件夹。
-- 右下角若显示 Spaces: 2，改成 Spaces: 4；Python 统一 4 空格缩进。
-
-**快捷键：** Ctrl+` 开关终端、Ctrl+S 保存、Ctrl+/ 注释、Ctrl+F 搜索、Ctrl+P 打开文件、Alt+Shift+F 格式化。
-
-**常见报错：**
-- `can't open file`：检查当前目录和文件名。
-- `IndentationError`：缩进多了/少了/混用。
-- `SyntaxError`：括号、冒号、引号漏了。
-- `NameError`：变量名拼错或没赋值。
-- `KeyError`：字典必须用键访问（`d["苹果"]` 对，`d[0]` 错），遍历用 `for key in d`。
-- `TypeError: write() argument must be str`：readlines() 返回列表，write() 只收字符串，要 for 循环逐行写或 "".join()。
-
-**VS Code 技巧 PDF：** D:\pythonstudy\vscode技巧\vscode_tips.pdf
-
----
-
-## Git / GitHub（已学完）
-
-- 仓库：https://github.com/316633016wz-ux/python-study.git
-- 更新代码三步：`git add .` → `git commit -m "说明"` → `git push`（注意 add 和 . 之间有空格）。
-- push 过 ≠ 新文件自动上传；每次有改动都要重新走三步。
-- 国内连不上配代理：`git config --global http.proxy http://127.0.0.1:7890`
-
----
-
-## PDF 生成方法（重要）
-
-weasyprint / xhtml2pdf 在用户 Python 3.8 环境下都失败。改用 Windows 自带 Edge 无头模式：
-
-```
-"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --headless --disable-gpu --print-to-pdf="输出.pdf" "输入.html"
-```
-
-流程：先写带内联 CSS 的 HTML，再用上面命令转 PDF。用户要 PDF 时直接帮他生成，不让他装库。
-
-**已生成的 PDF：** day3_summary.pdf、day5_summary.pdf、day6_summary.pdf、day7_summary.pdf、github学习/github_summary.pdf、vscode技巧/vscode_tips.pdf
-
----
-
 ## 常见指令
 
 - **"开始 Day X"**：讲概念 → 给例子 → 布置练习，让用户自己写代码。
 - **"继续"**：从上次停的地方继续当天学习。
-- **"做完了" / "最后部分" / "收尾" / "总结"**：立即执行每天结束标准流程（批改 → PDF → 更新 CLAUDE.md → GitHub），不要问是否需要。
+- **"做完了" / "最后部分" / "收尾" / "总结"**：立即执行每天结束标准流程（批改 → PDF → 更新 CLAUDE.md），不要问是否需要。
 - **"帮我排查报错"**：解释报错原因，指导修改，不直接重写文件。
 - **"帮我生成 PDF" / "帮我总结成 PDF"**：生成当天学习总结的 HTML 和 PDF。
 
