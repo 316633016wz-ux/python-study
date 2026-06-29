@@ -2,10 +2,22 @@
 
 本文件是 Claude Code 每次开新对话自动加载的项目记忆。所有背景、教学方式、进度都以本文件为准，更新时只改这一份。
 
-**参考文档（需要时查询）：**
-- 环境与报错排查：`.docs/troubleshooting.md`
-- Git/GitHub 操作：`.docs/git_guide.md`
-- PDF 生成方法：`.docs/pdf_generation.md`
+---
+
+## ⚠️ 重要：遇到问题先查文档
+
+**遇到以下情况时，必须先用 Read 工具查询对应的参考文档，实在找不到答案再问用户：**
+
+- 用户报错 / 环境问题 → 先查 `docs/troubleshooting.md`
+- Git/GitHub 操作问题 → 先查 `docs/git_guide.md`
+- 需要生成 PDF → 先查 `docs/pdf_generation.md`
+
+**不要凭记忆猜测，不要忘记这些文档的存在，不要直接问用户"怎么办"。**
+
+**参考文档列表：**
+- `docs/troubleshooting.md` - 环境与报错排查
+- `docs/git_guide.md` - Git/GitHub 操作指南
+- `docs/pdf_generation.md` - PDF 生成方法
 
 ---
 
