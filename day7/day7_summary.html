@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Day 7：MySQL 数据库基础 - 学习总结</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 25px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #34495e;
+            margin-top: 20px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', monospace;
+            color: #e74c3c;
+        }
+        pre {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+        pre code {
+            background-color: transparent;
+            color: #ecf0f1;
+            padding: 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin: 15px 0;
+        }
+        .tip {
+            background-color: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 12px;
+            margin: 15px 0;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Day 7：MySQL 数据库基础 - 学习总结</h1>
+    <p><strong>日期：</strong>2026-06-29</p>
+
+    <div class="section">
+        <h2>一、MySQL 基础概念</h2>
+
+        <h3>1. 为什么用 MySQL？</h3>
+        <table>
+            <tr>
+                <th>特性</th>
+                <th>CSV 文件</th>
+                <th>MySQL 数据库</th>
+            </tr>
+            <tr>
+                <td>数据量</td>
+                <td>几千行还行</td>
+                <td>百万行也不卡</td>
+            </tr>
+            <tr>
+                <td>查询速度</td>
+                <td>每次读整个文件</td>
+                <td>有索引，秒查</td>
+            </tr>
+            <tr>
+                <td>多人同时用</td>
+                <td>容易出问题</td>
+                <td>支持并发</td>
+            </tr>
+            <tr>
+                <td>数据类型</td>
+                <td>全是文本</td>
+                <td>强制类型（整数/日期/文本）</td>
+            </tr>
+        </table>
+
+        <h3>2. 核心概念</h3>
+        <ul>
+            <li><strong>数据库（Database）：</strong>一组相关的表，类比一个项目文件夹</li>
+            <li><strong>表（Table）：</strong>类似 pandas 的 DataFrame，有行有列</li>
+            <li><strong>字段（Column/Field）：</strong>列，比如"姓名""年龄"</li>
+            <li><strong>记录（Row/Record）：</strong>一行数据</li>
+            <li><strong>主键（Primary Key）：</strong>唯一标识每一行的列（不能重复）</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>二、MySQL 安装与连接</h2>
+
+        <h3>1. 验证安装</h3>
+        <pre><code># 在 PowerShell 中
+mysql --version</code></pre>
+
+        <h3>2. 连接 MySQL</h3>
+        <pre><code># 使用完整路径连接（如果环境变量未配置）
+& "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u root -p
+
+# 参数说明：
+# -u root：使用 root 用户登录（管理员账户）
+# -p：需要输入密码（输入时屏幕不显示字符，这是安全设计）</code></pre>
+
+        <h3>3. 退出 MySQL</h3>
+        <pre><code># 方法1：输入命令
+EXIT;
+
+# 方法2：快捷键
+Ctrl+C</code></pre>
+    </div>
+
+    <div class="section">
+        <h2>三、SQL 基本命令</h2>
+
+        <h3>1. 数据库操作</h3>
+
+        <h4>查看所有数据库</h4>
+        <pre><code>SHOW DATABASES;</code></pre>
+        <p><strong>说明：</strong>显示 MySQL 中所有的数据库列表</p>
+
+        <h4>创建数据库</h4>
+        <pre><code>CREATE DATABASE 数据库名;</code></pre>
+        <p><strong>示例：</strong></p>
+        <pre><code>CREATE DATABASE student_system;</code></pre>
+
+        <h4>使用数据库</h4>
+        <pre><code>USE 数据库名;</code></pre>
+        <p><strong>示例：</strong></p>
+        <pre><code>USE student_system;</code></pre>
+        <p><strong>说明：</strong>类似 PowerShell 的 <code>cd</code> 命令，进入某个数据库才能操作里面的表</p>
+
+        <h4>删除数据库（危险操作）</h4>
+        <pre><code>DROP DATABASE 数据库名;</code></pre>
+        <div class="warning">
+            <strong>⚠️ 警告：</strong>删除数据库会永久删除里面所有的表和数据，无法恢复！
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>2. 表操作</h3>
+
+        <h4>查看所有表</h4>
+        <pre><code>SHOW TABLES;</code></pre>
+        <p><strong>说明：</strong>显示当前数据库中所有的表</p>
+
+        <h4>创建表</h4>
+        <pre><code>CREATE TABLE 表名 (
+    列名1 数据类型 约束,
+    列名2 数据类型 约束,
+    ...
+);</code></pre>
+
+        <p><strong>示例：</strong></p>
+        <pre><code>CREATE TABLE students (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    age INT,
+    score FLOAT
+);</code></pre>
+
+        <p><strong>参数说明：</strong></p>
+        <ul>
+            <li><code>INT</code>：整数类型</li>
+            <li><code>VARCHAR(50)</code>：可变长度字符串，最多50个字符</li>
+            <li><code>FLOAT</code>：浮点数</li>
+            <li><code>PRIMARY KEY</code>：主键，唯一标识每一行</li>
+            <li><code>AUTO_INCREMENT</code>：自动递增（1, 2, 3...）</li>
+            <li><code>NOT NULL</code>：该列不能为空</li>
+        </ul>
+
+        <div class="tip">
+            <strong>💡 提示：</strong>最后一个字段后面不要加逗号，直接跟右括号和分号
+        </div>
+
+        <h4>查看表结构</h4>
+        <pre><code>DESCRIBE 表名;
+-- 或简写
+DESC 表名;</code></pre>
+        <p><strong>示例：</strong></p>
+        <pre><code>DESC students;</code></pre>
+
+        <h4>删除表（危险操作）</h4>
+        <pre><code>DROP TABLE 表名;</code></pre>
+    </div>
+
+    <div class="section">
+        <h3>3. 数据操作（增删改查）</h3>
+
+        <h4>插入数据（INSERT）</h4>
+        <p><strong>插入单条数据：</strong></p>
+        <pre><code>INSERT INTO 表名 (列1, 列2, 列3) VALUES (值1, 值2, 值3);</code></pre>
+
+        <p><strong>示例：</strong></p>
+        <pre><code>INSERT INTO students (name, age, score) VALUES ('张三', 20, 85.5);</code></pre>
+
+        <p><strong>插入多条数据：</strong></p>
+        <pre><code>INSERT INTO 表名 (列1, 列2, 列3) VALUES
+(值1, 值2, 值3),
+(值4, 值5, 值6),
+(值7, 值8, 值9);</code></pre>
+
+        <p><strong>示例：</strong></p>
+        <pre><code>INSERT INTO students (name, age, score) VALUES
+('李四', 19, 92.0),
+('王五', 21, 78.5),
+('赵六', 20, 88.0);</code></pre>
+
+        <p><strong>注意事项：</strong></p>
+        <ul>
+            <li>字符串用单引号 <code>'张三'</code></li>
+            <li>数字直接写 <code>20</code> 或 <code>85.5</code></li>
+            <li>必须用英文逗号 <code>,</code>，不能用中文逗号 <code>，</code></li>
+            <li>如果列有 <code>AUTO_INCREMENT</code>，插入时不用指定该列</li>
+        </ul>
+
+        <h4>查询数据（SELECT）</h4>
+
+        <p><strong>查询所有数据：</strong></p>
+        <pre><code>SELECT * FROM 表名;</code></pre>
+        <p><strong>说明：</strong><code>*</code> 表示所有列</p>
+
+        <p><strong>查询特定列：</strong></p>
+        <pre><code>SELECT 列1, 列2 FROM 表名;</code></pre>
+        <p><strong>示例：</strong></p>
+        <pre><code>SELECT name, score FROM students;</code></pre>
+
+        <p><strong>条件查询（WHERE）：</strong></p>
+        <pre><code>SELECT * FROM 表名 WHERE 条件;</code></pre>
+        <p><strong>示例：</strong></p>
+        <pre><code>-- 查询成绩大于85的学生
+SELECT * FROM students WHERE score > 85;
+
+-- 查询名字是张三的学生
+SELECT * FROM students WHERE name = '张三';
+
+-- 查询年龄在18到22岁之间的学生
+SELECT * FROM students WHERE age >= 18 AND age <= 22;</code></pre>
+
+        <p><strong>排序（ORDER BY）：</strong></p>
+        <pre><code>SELECT * FROM 表名 ORDER BY 列名 [ASC|DESC];</code></pre>
+        <p><strong>说明：</strong></p>
+        <ul>
+            <li><code>ASC</code>：升序（从小到大），默认</li>
+            <li><code>DESC</code>：降序（从大到小）</li>
+        </ul>
+        <p><strong>示例：</strong></p>
+        <pre><code>-- 按成绩从高到低排序
+SELECT * FROM students ORDER BY score DESC;
+
+-- 按年龄从小到大排序
+SELECT * FROM students ORDER BY age ASC;</code></pre>
+
+        <p><strong>限制结果数量（LIMIT）：</strong></p>
+        <pre><code>SELECT * FROM 表名 LIMIT 数量;</code></pre>
+        <p><strong>示例：</strong></p>
+        <pre><code>-- 只显示前3条记录
+SELECT * FROM students LIMIT 3;</code></pre>
+
+        <h4>更新数据（UPDATE）</h4>
+        <pre><code>UPDATE 表名 SET 列名 = 新值 WHERE 条件;</code></pre>
+
+        <p><strong>示例：</strong></p>
+        <pre><code>-- 把张三的成绩改成90
+UPDATE students SET score = 90 WHERE name = '张三';
+
+-- 把所有学生的年龄加1
+UPDATE students SET age = age + 1;</code></pre>
+
+        <div class="warning">
+            <strong>⚠️ 危险警告：</strong>如果不加 <code>WHERE</code> 条件，会修改所有行的数据！
+            <pre><code>-- 危险！会把所有学生的成绩都改成90
+UPDATE students SET score = 90;</code></pre>
+        </div>
+
+        <h4>删除数据（DELETE）</h4>
+        <pre><code>DELETE FROM 表名 WHERE 条件;</code></pre>
+
+        <p><strong>示例：</strong></p>
+        <pre><code>-- 删除名字是王五的学生
+DELETE FROM students WHERE name = '王五';
+
+-- 删除成绩低于60的学生
+DELETE FROM students WHERE score < 60;</code></pre>
+
+        <div class="warning">
+            <strong>⚠️ 超级危险警告：</strong>如果不加 <code>WHERE</code> 条件，会删除表中所有数据！
+            <pre><code>-- 危险！删除所有数据（表还在，数据全没）
+DELETE FROM students;</code></pre>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>4. 统计函数</h3>
+
+        <h4>COUNT - 统计行数</h4>
+        <pre><code>SELECT COUNT(*) FROM 表名;</code></pre>
+        <p><strong>示例：</strong></p>
+        <pre><code>-- 统计学生总数
+SELECT COUNT(*) FROM students;
+
+-- 统计成绩大于80的学生人数
+SELECT COUNT(*) FROM students WHERE score > 80;</code></pre>
+
+        <h4>AVG - 求平均值</h4>
+        <pre><code>SELECT AVG(列名) FROM 表名;</code></pre>
+        <p><strong>示例：</strong></p>
+        <pre><code>-- 求平均成绩
+SELECT AVG(score) FROM students;</code></pre>
+
+        <h4>MAX - 求最大值</h4>
+        <pre><code>SELECT MAX(列名) FROM 表名;</code></pre>
+        <p><strong>示例：</strong></p>
+        <pre><code>-- 求最高分
+SELECT MAX(score) FROM students;</code></pre>
+
+        <h4>MIN - 求最小值</h4>
+        <pre><code>SELECT MIN(列名) FROM 表名;</code></pre>
+        <p><strong>示例：</strong></p>
+        <pre><code>-- 求最低分
+SELECT MIN(score) FROM students;</code></pre>
+
+        <h4>SUM - 求总和</h4>
+        <pre><code>SELECT SUM(列名) FROM 表名;</code></pre>
+        <p><strong>示例：</strong></p>
+        <pre><code>-- 求总分
+SELECT SUM(score) FROM students;</code></pre>
+    </div>
+
+    <div class="section">
+        <h2>四、SQL 与 pandas 对比</h2>
+        <table>
+            <tr>
+                <th>操作</th>
+                <th>SQL 命令</th>
+                <th>pandas 写法</th>
+            </tr>
+            <tr>
+                <td>创建表</td>
+                <td><code>CREATE TABLE</code></td>
+                <td><code>pd.DataFrame()</code></td>
+            </tr>
+            <tr>
+                <td>查看所有数据</td>
+                <td><code>SELECT * FROM 表名</code></td>
+                <td><code>df</code></td>
+            </tr>
+            <tr>
+                <td>选择列</td>
+                <td><code>SELECT 列名 FROM 表名</code></td>
+                <td><code>df["列名"]</code></td>
+            </tr>
+            <tr>
+                <td>条件筛选</td>
+                <td><code>WHERE score > 85</code></td>
+                <td><code>df[df["score"] > 85]</code></td>
+            </tr>
+            <tr>
+                <td>排序</td>
+                <td><code>ORDER BY 列名 DESC</code></td>
+                <td><code>df.sort_values("列名", ascending=False)</code></td>
+            </tr>
+            <tr>
+                <td>更新数据</td>
+                <td><code>UPDATE SET 列=值 WHERE 条件</code></td>
+                <td><code>df.loc[条件, "列"] = 值</code></td>
+            </tr>
+            <tr>
+                <td>删除行</td>
+                <td><code>DELETE WHERE 条件</code></td>
+                <td><code>df = df[条件]</code></td>
+            </tr>
+            <tr>
+                <td>统计行数</td>
+                <td><code>COUNT(*)</code></td>
+                <td><code>len(df)</code></td>
+            </tr>
+            <tr>
+                <td>求平均值</td>
+                <td><code>AVG(列名)</code></td>
+                <td><code>df["列名"].mean()</code></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>五、常见错误与解决</h2>
+
+        <h3>1. 中文标点符号</h3>
+        <div class="warning">
+            <strong>错误：</strong><code>VALUES('张三'，20)</code> 用了中文逗号<br>
+            <strong>正确：</strong><code>VALUES('张三', 20)</code> 必须用英文逗号
+        </div>
+
+        <h3>2. 最后一个字段多了逗号</h3>
+        <div class="warning">
+            <strong>错误：</strong>
+            <pre><code>CREATE TABLE books(
+    title VARCHAR(100),
+    price FLOAT,    ← 多了逗号
+);</code></pre>
+            <strong>正确：</strong>
+            <pre><code>CREATE TABLE books(
+    title VARCHAR(100),
+    price FLOAT     ← 没有逗号
+);</code></pre>
+        </div>
+
+        <h3>3. 忘记 WHERE 条件</h3>
+        <div class="warning">
+            <strong>危险：</strong>
+            <pre><code>UPDATE students SET score = 90;  -- 所有学生成绩都变90
+DELETE FROM students;            -- 删除所有数据</code></pre>
+            <strong>正确：</strong>
+            <pre><code>UPDATE students SET score = 90 WHERE name = '张三';
+DELETE FROM students WHERE score < 60;</code></pre>
+        </div>
+
+        <h3>4. 拼写错误</h3>
+        <ul>
+            <li><code>DELETE FORM</code> 错误 → 应该是 <code>DELETE FROM</code></li>
+            <li><code>CREAT TABLE</code> 错误 → 应该是 <code>CREATE TABLE</code></li>
+            <li><code>SELCT</code> 错误 → 应该是 <code>SELECT</code></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>六、今日练习总结</h2>
+
+        <p><strong>练习任务：</strong>创建书店数据库 <code>bookstore</code> 和表 <code>books</code></p>
+
+        <p><strong>完成的操作：</strong></p>
+        <ol>
+            <li>创建数据库和表（包含 id、书名、作者、价格、年份）</li>
+            <li>插入5本书的数据</li>
+            <li>查询价格超过35元的书</li>
+            <li>按价格排序</li>
+            <li>更新《活着》的价格</li>
+            <li>删除1950年前出版的书</li>
+            <li>计算剩余书籍的平均价格</li>
+        </ol>
+
+        <p><strong>结果验证：</strong></p>
+        <ul>
+            <li>删除2本书后剩余3本：《三体》《活着》《百年孤独》</li>
+            <li>平均价格：(36 + 45 + 58) ÷ 3 = 46.33 元 ✅</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>七、重要提醒</h2>
+
+        <div class="tip">
+            <h3>安全习惯（必须遵守）</h3>
+            <ul>
+                <li>✅ <code>UPDATE</code> 和 <code>DELETE</code> 必须加 <code>WHERE</code> 条件</li>
+                <li>✅ 所有 SQL 语句必须以英文分号 <code>;</code> 结尾</li>
+                <li>✅ 字符串用单引号 <code>'张三'</code>，不是双引号</li>
+                <li>✅ 所有标点符号必须是英文（半角），不能用中文（全角）</li>
+                <li>✅ 主键设置 <code>AUTO_INCREMENT</code> 可以自动递增，插入时不用手动指定</li>
+            </ul>
+        </div>
+
+        <div class="tip">
+            <h3>下一步学习</h3>
+            <p><strong>Day 8 预告：</strong></p>
+            <ul>
+                <li>安装 <code>pymysql</code> 库</li>
+                <li>用 Python 代码连接 MySQL</li>
+                <li>在 .py 文件里执行 SQL 命令</li>
+                <li>pandas 和 MySQL 互导数据</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>八、快速参考卡片</h2>
+
+        <h3>连接 MySQL</h3>
+        <pre><code>mysql -u root -p</code></pre>
+
+        <h3>数据库相关</h3>
+        <pre><code>SHOW DATABASES;              -- 查看所有数据库
+CREATE DATABASE 数据库名;    -- 创建数据库
+USE 数据库名;                -- 使用数据库
+DROP DATABASE 数据库名;      -- 删除数据库</code></pre>
+
+        <h3>表相关</h3>
+        <pre><code>SHOW TABLES;                 -- 查看所有表
+DESC 表名;                   -- 查看表结构
+DROP TABLE 表名;             -- 删除表</code></pre>
+
+        <h3>增删改查</h3>
+        <pre><code>INSERT INTO 表名 (列) VALUES (值);     -- 插入
+SELECT * FROM 表名 WHERE 条件;          -- 查询
+UPDATE 表名 SET 列=值 WHERE 条件;       -- 更新
+DELETE FROM 表名 WHERE 条件;            -- 删除</code></pre>
+
+        <h3>统计函数</h3>
+        <pre><code>SELECT COUNT(*) FROM 表名;   -- 统计行数
+SELECT AVG(列名) FROM 表名;  -- 平均值
+SELECT MAX(列名) FROM 表名;  -- 最大值
+SELECT MIN(列名) FROM 表名;  -- 最小值
+SELECT SUM(列名) FROM 表名;  -- 总和</code></pre>
+    </div>
+
+    <hr style="margin: 40px 0; border: none; border-top: 2px solid #3498db;">
+    <p style="text-align: center; color: #7f8c8d; font-size: 14px;">
+        学习日期：2026-06-29 | Day 7 完成 ✅<br>
+        下一步：Day 8 - Python 连接 MySQL
+    </p>
+</body>
+</html>

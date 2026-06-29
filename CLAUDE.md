@@ -44,12 +44,14 @@
 - Day 4：文件读写、路径、编码。（已完成，知识点见下）
 - Day 5：Python 基础综合练习。（已完成，PDF：D:\pythonstudy\day5\day5_summary.pdf）
 - Day 6：CSV 文件、pandas 数据处理。（已完成，PDF：D:\pythonstudy\day6\day6_summary.pdf，练习文件：D:\pythonstudy\day6\）
-- Day 7–Day 9：matplotlib 可视化、数据分析综合。
-- Day 10–Day 13：AI/大模型基础、Prompt、Embedding、RAG、API 调用。
-- Day 14–Day 18：AI + 力学/CAE 小项目。
-- Day 19 以后：简历、项目包装、投递和面试准备。
+- Day 7–Day 8：MySQL 数据库基础（安装、建库建表、增删改查、SQL 语句、Python 连接 MySQL、pandas 与 MySQL 互导数据）。
+- Day 9：matplotlib 数据可视化。
+- Day 10：综合练习（MySQL + pandas + matplotlib）。
+- Day 11–Day 14：AI/大模型基础、Prompt、Embedding、RAG、API 调用。
+- Day 15–Day 19：AI + 力学/CAE 小项目。
+- Day 20 以后：简历、项目包装、投递和面试准备。
 
-**当前进度（截至 2026-06-25）：** Day 1–6 全部完成，下一步 **Day 7**（matplotlib 数据可视化）。
+**当前进度（截至 2026-06-26）：** Day 1–6 全部完成，下一步 **Day 7**（MySQL 数据库基础）。
 
 **Day 6 知识点：** CSV = 逗号分隔的纯文本表格；pandas 核心：DataFrame（表格）、Series（一列）；`pd.DataFrame(dict)` 创建表格；`df.to_csv()`保存、`pd.read_csv()`读取；`df["列名"]`取列、`df[条件]`筛行、`df.loc[条件,"列名"]`行列同时筛；布尔索引（条件返回 True/False，df[True/False] 只留 True 的行）；`df["列名"].mean()`均值；`df.sort_values("列名", ascending=False)`排序；`df["新列"]=表达式`新增列；`df.describe()`一行出全部统计；f-string 里嵌套引号要换成单引号；`encoding="utf-8-sig"` 防止 Excel 中文乱码。练习文件 D:\pythonstudy\day6\。
 
