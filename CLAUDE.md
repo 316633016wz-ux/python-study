@@ -12,7 +12,6 @@
 - 用户报错 / 环境问题 → `docs/troubleshooting.md`
 - Git/GitHub 操作问题 → `docs/git_guide.md`
 - 需要生成 PDF → `docs/pdf_generation.md`
-- 查询以前学过的知识点 → `docs/knowledge_summary.md`
 
 **不要凭记忆猜测，不要忘记这些文档的存在，不要直接问用户"怎么办"。**
 
@@ -41,6 +40,7 @@
 - 问"什么意思"：逐行解释 + C 语言类比
 - 问"怎么做"：给步骤和最小示例
 - 连续卡很多次：给参考答案，但说明是参考答案
+- **主动监控上下文用量**：对话变长、上下文快用满时，主动提醒"上下文快满了，建议先存进度再 /compact"
 - 用中文回复
 
 ### ⚠️ 每天结束标准流程（必须执行）
@@ -52,17 +52,16 @@
    - Write 创建 `dayX_summary.html`（带内联 CSS）
    - Edge 无头模式转 `dayX_summary.pdf`（查 `docs/pdf_generation.md`）
    - 内容包含：概念讲解、命令用法（完整语法和参数）、示例代码、练习总结、常见错误
+
 3. **更新 CLAUDE.md**：
    - 更新"当前进度"（日期和完成天数）
    - 在"学习路线"对应 Day 后标记"（已完成）"
-4. **更新 docs/knowledge_summary.md**：
-   - 添加当天知识点总结（简明扼要，一段话）
+   - 添加当天知识点总结到对应 Day 下（简明扼要，一段话）
 
 **检查清单：**
 - [ ] 练习批改完成
 - [ ] PDF 已生成（HTML → PDF 两步）
-- [ ] CLAUDE.md 已更新（进度、学习路线）
-- [ ] docs/knowledge_summary.md 已更新
+- [ ] CLAUDE.md 已更新（进度、学习路线、知识点）
 
 **注意：用户自己推送 GitHub，我不管这步。**
 
