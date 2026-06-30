@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 8 学习总结 - Python 连接 MySQL</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.8;
+            margin: 40px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #34495e;
+            margin-top: 20px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            color: #e74c3c;
+        }
+        pre {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            line-height: 1.5;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+        .error {
+            background-color: #f8d7da;
+            padding: 15px;
+            border-left: 4px solid #dc3545;
+            margin: 20px 0;
+        }
+        .success {
+            background-color: #d4edda;
+            padding: 15px;
+            border-left: 4px solid #28a745;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Day 8 学习总结 - Python 连接 MySQL</h1>
+    <p><strong>学习日期：</strong>2026-06-30</p>
+    <p><strong>核心内容：</strong>pymysql 连接数据库、执行 SQL、pandas 与 MySQL 互导数据</p>
+
+    <h2>一、核心概念</h2>
+
+    <h3>1. pymysql 是什么</h3>
+    <p><code>pymysql</code> 是 Python 和 MySQL 之间的"桥梁"，让 Python 程序可以连接数据库、执行 SQL 语句。</p>
+
+    <div class="highlight">
+        <strong>类比 C 语言：</strong>
+        <table>
+            <tr>
+                <th>C 语言</th>
+                <th>Python</th>
+            </tr>
+            <tr>
+                <td><code>#include &lt;mysql.h&gt;</code></td>
+                <td><code>import pymysql</code></td>
+            </tr>
+            <tr>
+                <td><code>mysql_connect(...)</code></td>
+                <td><code>pymysql.connect(...)</code></td>
+            </tr>
+            <tr>
+                <td><code>mysql_query(...)</code></td>
+                <td><code>cursor.execute(...)</code></td>
+            </tr>
+        </table>
+    </div>
+
+    <h3>2. 连接 MySQL 的核心流程</h3>
+    <table>
+        <tr>
+            <th>步骤</th>
+            <th>pymysql</th>
+            <th>类比文件操作</th>
+        </tr>
+        <tr>
+            <td>1. 建连接</td>
+            <td><code>conn = pymysql.connect(...)</code></td>
+            <td><code>fp = fopen(...)</code></td>
+        </tr>
+        <tr>
+            <td>2. 创建游标</td>
+            <td><code>cursor = conn.cursor()</code></td>
+            <td>用 fp 直接操作</td>
+        </tr>
+        <tr>
+            <td>3. 执行 SQL</td>
+            <td><code>cursor.execute(SQL)</code></td>
+            <td><code>fprintf(fp, ...)</code></td>
+        </tr>
+        <tr>
+            <td>4. 读取结果</td>
+            <td><code>cursor.fetchall()</code></td>
+            <td><code>fgets(fp, ...)</code></td>
+        </tr>
+        <tr>
+            <td>5. 提交事务</td>
+            <td><code>conn.commit()</code></td>
+            <td><code>fflush(fp)</code></td>
+        </tr>
+        <tr>
+            <td>6. 关闭</td>
+            <td><code>cursor.close() + conn.close()</code></td>
+            <td><code>fclose(fp)</code></td>
+        </tr>
+    </table>
+
+    <h2>二、命令用法与完整语法</h2>
+
+    <h3>1. pymysql.connect() - 建立连接</h3>
+    <pre>
+conn = pymysql.connect(
+    host="localhost",      # MySQL 服务器地址
+    user="root",           # 用户名
+    password="密码",       # 密码
+    database="数据库名",   # 选择数据库
+    charset="utf8"         # 字符编码，防止中文乱码
+)</pre>
+
+    <h3>2. cursor.execute() - 执行 SQL</h3>
+    <pre>
+cursor = conn.cursor()     # 创建游标
+cursor.execute("SQL语句")  # 执行 SQL
+result = cursor.fetchall() # 获取所有结果（返回列表，每行是元组）</pre>
+
+    <div class="highlight">
+        <strong>重要：</strong>INSERT / UPDATE / DELETE 操作后必须调用 <code>conn.commit()</code>，否则数据不会真正写入数据库！SELECT 不需要 commit。
+    </div>
+
+    <h3>3. pd.read_sql() - 读取数据到 DataFrame</h3>
+    <pre>
+import pandas as pd
+
+df = pd.read_sql("SELECT * FROM 表名", conn)
+# 直接返回 DataFrame，比 fetchall() 返回元组更好用</pre>
+
+    <table>
+        <tr>
+            <th>参数</th>
+            <th>说明</th>
+        </tr>
+        <tr>
+            <td><code>sql</code></td>
+            <td>字符串，要执行的 SQL 语句</td>
+        </tr>
+        <tr>
+            <td><code>con</code></td>
+            <td>数据库连接对象（pymysql 的 conn 或 SQLAlchemy 的 engine）</td>
+        </tr>
+    </table>
+
+    <h3>4. df.to_sql() - DataFrame 写入 MySQL</h3>
+    <pre>
+from sqlalchemy import create_engine
+
+# 创建 SQLAlchemy 引擎
+engine = create_engine("mysql+pymysql://用户名:密码@主机/数据库名?charset=utf8")
+
+# 写入数据
+df.to_sql("表名", engine, if_exists="append", index=False)</pre>
+
+    <table>
+        <tr>
+            <th>参数</th>
+            <th>说明</th>
+        </tr>
+        <tr>
+            <td><code>"表名"</code></td>
+            <td>写入哪张表</td>
+        </tr>
+        <tr>
+            <td><code>engine</code></td>
+            <td>SQLAlchemy 引擎</td>
+        </tr>
+        <tr>
+            <td><code>if_exists</code></td>
+            <td>"append"（追加）/ "replace"（覆盖）/ "fail"（存在则报错）</td>
+        </tr>
+        <tr>
+            <td><code>index=False</code></td>
+            <td>不把 DataFrame 的行号写进数据库</td>
+        </tr>
+    </table>
+
+    <h3>5. SQLAlchemy 连接字符串格式</h3>
+    <pre>
+mysql+pymysql://用户名:密码@主机地址/数据库名?charset=utf8</pre>
+
+    <p><strong>示例：</strong></p>
+    <pre>
+engine = create_engine("mysql+pymysql://root:Wuzhewuzhe123@localhost/bookstore?charset=utf8")</pre>
+
+    <h2>三、完整示例代码</h2>
+
+    <h3>示例1：查询数据</h3>
+    <pre>
+import pymysql
+
+conn = pymysql.connect(
+    host="localhost",
+    user="root",
+    password="密码",
+    database="bookstore",
+    charset="utf8"
+)
+
+cursor = conn.cursor()
+cursor.execute("SELECT * FROM books;")
+result = cursor.fetchall()
+
+for row in result:
+    print(row)
+
+cursor.close()
+conn.close()</pre>
+
+    <h3>示例2：插入数据</h3>
+    <pre>
+import pymysql
+
+conn = pymysql.connect(
+    host="localhost",
+    user="root",
+    password="密码",
+    database="bookstore",
+    charset="utf8"
+)
+
+cursor = conn.cursor()
+
+sql = "INSERT INTO books (title, author, price, year) VALUES ('平凡的世界', '路遥', 48, 1986);"
+cursor.execute(sql)
+conn.commit()  # 必须提交
+
+print("插入成功！")
+
+cursor.close()
+conn.close()</pre>
+
+    <h3>示例3：pandas 读取和写入</h3>
+    <pre>
+import pymysql
+import pandas as pd
+from sqlalchemy import create_engine
+
+# 方式1：用 pymysql 连接读取
+conn = pymysql.connect(
+    host="localhost",
+    user="root",
+    password="密码",
+    database="bookstore",
+    charset="utf8"
+)
+
+df = pd.read_sql("SELECT * FROM books", conn)
+print(df)
+print("平均价格：", df["price"].mean())
+
+conn.close()
+
+# 方式2：用 SQLAlchemy 写入
+engine = create_engine("mysql+pymysql://root:密码@localhost/bookstore?charset=utf8")
+
+data = {
+    "title": ["红楼梦", "西游记"],
+    "author": ["曹雪芹", "吴承恩"],
+    "price": [52, 45],
+    "year": [1791, 1592]
+}
+df_new = pd.DataFrame(data)
+
+df_new.to_sql("books", engine, if_exists="append", index=False)
+print("写入成功！")</pre>
+
+    <h2>四、练习总结</h2>
+
+    <div class="success">
+        <h3>练习1：连接数据库并读取数据</h3>
+        <p>✅ 成功用 <code>pd.read_sql()</code> 读取 student_system 数据库的 students 表</p>
+        <p><strong>代码：</strong></p>
+        <pre>
+df = pd.read_sql("SELECT * FROM students", conn)
+print(df)</pre>
+    </div>
+
+    <div class="success">
+        <h3>练习2：用 pymysql 插入数据</h3>
+        <p>✅ 成功插入3条数据（王五、张二、李六），正确使用了 <code>conn.commit()</code></p>
+        <p><strong>代码：</strong></p>
+        <pre>
+sql = "INSERT INTO students (name, age, score) VALUES ('王五', 22, 99), ('张二', 23, 20), ('李六', 21, 0);"
+cursor.execute(sql)
+conn.commit()</pre>
+    </div>
+
+    <div class="success">
+        <h3>练习3：数据分析</h3>
+        <p>✅ 正确计算平均成绩并找出最高分学生</p>
+        <p><strong>代码亮点：</strong></p>
+        <pre>
+# 平均成绩（用 f-string 格式化保留2位小数）
+print(f"平均成绩：{df['score'].mean():.2f}")
+
+# 最高分学生（用 .loc[] 筛选 + .values[0] 取纯字符串）
+print(f"最高分同学：{df.loc[df['score']==df['score'].max(),'name'].values[0]}")</pre>
+    </div>
+
+    <h2>五、常见错误与解决</h2>
+
+    <div class="error">
+        <h3>错误1：pip 无法识别</h3>
+        <p><strong>现象：</strong><code>pip : 无法将"pip"项识别为 cmdlet...</code></p>
+        <p><strong>解决：</strong>改用 <code>python -m pip install 包名</code></p>
+    </div>
+
+    <div class="error">
+        <h3>错误2：Unknown database 'xxx'</h3>
+        <p><strong>原因：</strong>数据库名写错或数据库不存在</p>
+        <p><strong>解决：</strong>在 MySQL 里运行 <code>SHOW DATABASES;</code> 查看实际数据库名</p>
+    </div>
+
+    <div class="error">
+        <h3>错误3：插入/更新/删除后数据没变化</h3>
+        <p><strong>原因：</strong>忘记调用 <code>conn.commit()</code></p>
+        <p><strong>解决：</strong>INSERT / UPDATE / DELETE 后必须加 <code>conn.commit()</code></p>
+    </div>
+
+    <div class="error">
+        <h3>错误4：print() 里用 :.2f 格式化报错</h3>
+        <p><strong>错误写法：</strong><code>print("平均：", df["score"].mean():.2f)</code></p>
+        <p><strong>正确写法：</strong><code>print(f"平均：{df['score'].mean():.2f}")</code></p>
+        <p><strong>原因：</strong>格式化符号 <code>:.2f</code> 只能在 f-string 的 <code>{}</code> 里使用</p>
+    </div>
+
+    <h2>六、重要知识点</h2>
+
+    <h3>1. Series 和 .values[0]</h3>
+    <p>pandas 筛选返回的是 <strong>Series</strong>（带索引和类型信息），不是纯字符串：</p>
+    <pre>
+df.loc[df['score']==max, 'name']
+# 返回：3    王五
+#       Name: name, dtype: object
+
+df.loc[df['score']==max, 'name'].values[0]
+# 返回：'王五' （纯字符串）</pre>
+
+    <h3>2. cursor vs pd.read_sql</h3>
+    <table>
+        <tr>
+            <th></th>
+            <th>cursor 方式</th>
+            <th>pd.read_sql 方式</th>
+        </tr>
+        <tr>
+            <td>需要游标</td>
+            <td>✅ 需要 <code>cursor = conn.cursor()</code></td>
+            <td>❌ 不需要</td>
+        </tr>
+        <tr>
+            <td>返回类型</td>
+            <td>列表（每行是元组）</td>
+            <td>DataFrame</td>
+        </tr>
+        <tr>
+            <td>后续处理</td>
+            <td>需要手动遍历</td>
+            <td>直接用 pandas 操作</td>
+        </tr>
+    </table>
+
+    <h3>3. pymysql vs SQLAlchemy</h3>
+    <table>
+        <tr>
+            <th></th>
+            <th>pymysql</th>
+            <th>SQLAlchemy</th>
+        </tr>
+        <tr>
+            <td>连接方式</td>
+            <td><code>pymysql.connect(host=..., user=...)</code></td>
+            <td><code>create_engine("mysql+pymysql://...")</code></td>
+        </tr>
+        <tr>
+            <td>适用场景</td>
+            <td><code>pd.read_sql()</code> 读取</td>
+            <td><code>df.to_sql()</code> 写入</td>
+        </tr>
+        <tr>
+            <td>特点</td>
+            <td>参数分开传</td>
+            <td>所有信息合并成一个连接字符串</td>
+        </tr>
+    </table>
+
+    <h2>七、学生提问与解答</h2>
+
+    <h3>Q1: 为什么 pd.read_sql() 不需要 cursor？</h3>
+    <p><strong>A:</strong> <code>pd.read_sql()</code> 内部自动创建和管理 cursor，直接把查询结果转成 DataFrame，所以我们不需要手动创建 cursor。</p>
+
+    <h3>Q2: .values[0] 是什么意思？</h3>
+    <p><strong>A:</strong></p>
+    <ul>
+        <li><code>.values</code> 把 Series 转成纯数组</li>
+        <li><code>[0]</code> 取数组第一个元素</li>
+        <li>作用：把 Series（带索引和类型）转成纯字符串或数字</li>
+    </ul>
+
+    <h3>Q3: 为什么 f-string 里的引号要用单引号？</h3>
+    <p><strong>A:</strong> f-string 外层用双引号 <code>f"..."</code>，里面的字符串要换成单引号 <code>'...'</code>，避免引号冲突。</p>
+    <pre>
+# 错误
+print(f"最高分：{df["score"].max()}")  # 引号冲突
+
+# 正确
+print(f"最高分：{df['score'].max()}")</pre>
+
+    <h3>Q4: 为什么 print("xxx", value:.2f) 会报错？</h3>
+    <p><strong>A:</strong> 格式化符号 <code>:.2f</code> 只能在 f-string 的 <code>{}</code> 里使用，不能直接用在 <code>print()</code> 的逗号分隔参数里。</p>
+    <pre>
+# 错误
+print("平均：", df["score"].mean():.2f)
+
+# 正确
+print(f"平均：{df['score'].mean():.2f}")</pre>
+
+    <h2>八、下一步学习</h2>
+    <p>Day 9 将学习 <strong>matplotlib 数据可视化</strong>，把 MySQL 数据库和 pandas 的数据用图表展示出来。</p>
+
+</body>
+</html>

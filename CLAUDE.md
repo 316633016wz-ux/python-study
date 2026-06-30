@@ -62,8 +62,7 @@
 - [ ] 练习批改完成
 - [ ] PDF 已生成（HTML → PDF 两步）
 - [ ] CLAUDE.md 已更新（进度、学习路线、知识点）
-
-**注意：用户自己推送 GitHub，我不管这步。**
+- [ ] 提醒用户推送 GitHub（git add . → git commit -m "..." → git push）
 
 ---
 
@@ -76,14 +75,17 @@
 - Day 5：Python 基础综合练习（已完成）
 - Day 6：CSV 文件、pandas 数据处理（已完成）
 - Day 7：MySQL 数据库基础 - 安装、建库建表、增删改查、SQL 语句（已完成）
-- Day 8：Python 连接 MySQL、pymysql、pandas 与 MySQL 互导数据
+- Day 8：Python 连接 MySQL、pymysql、pandas 与 MySQL 互导数据（已完成）
 - Day 9：matplotlib 数据可视化
 - Day 10：综合练习（MySQL + pandas + matplotlib）
 - Day 11–Day 14：AI/大模型基础、Prompt、Embedding、RAG、API 调用
 - Day 15–Day 19：AI + 力学/CAE 小项目
 - Day 20+：简历、项目包装、投递和面试准备
 
-**当前进度（截至 2026-06-29）：** Day 1–7 完成，下一步 **Day 8**（Python 连接 MySQL）
+**当前进度（截至 2026-06-30）：** Day 1–8 完成，下一步 **Day 9**（matplotlib 数据可视化）
+
+### Day 8 知识点（Python 连接 MySQL）
+pymysql 连接数据库：`pymysql.connect(host, user, password, database, charset)` 建连接；`cursor = conn.cursor()` 创建游标；`cursor.execute(SQL)` 执行 SQL；`cursor.fetchall()` 返回列表（每行是元组）；INSERT/UPDATE/DELETE 必须 `conn.commit()` 提交，否则不生效；SELECT 不需要 commit；`conn.close()` 关闭连接。pandas 与 MySQL 互通：`pd.read_sql(SQL, conn)` 直接读取到 DataFrame（比 fetchall() 更好用）；`df.to_sql(表名, engine, if_exists="append", index=False)` 写入数据库（需要 SQLAlchemy 引擎）；SQLAlchemy 连接字符串格式：`mysql+pymysql://用户名:密码@主机/数据库名?charset=utf8`。Series 和 `.values[0]`：pandas 筛选返回 Series（带索引和类型），`.values[0]` 取第一个元素的纯值。f-string 格式化：`{变量:.2f}` 保留2位小数，外层双引号时内层用单引号防止冲突。练习文件：D:\pythonstudy\day8\，PDF：D:\pythonstudy\day8\day8_summary.pdf。
 
 ### Day 7 知识点（MySQL 数据库基础）
 MySQL 数据库基础；CREATE DATABASE 建库、USE 选库；CREATE TABLE 建表（INT/VARCHAR/FLOAT 数据类型、PRIMARY KEY 主键、AUTO_INCREMENT 自增、NOT NULL 非空约束）；INSERT INTO 插入数据（单条/多条）；SELECT 查询（* 全部列、WHERE 条件筛选、ORDER BY 排序 ASC/DESC、LIMIT 限制行数）；UPDATE SET WHERE 更新数据；DELETE FROM WHERE 删除数据；统计函数 COUNT/AVG/MAX/MIN/SUM；DESC 查看表结构；UPDATE/DELETE 必须加 WHERE 否则全表受影响；所有标点必须英文半角；字符串用单引号；SQL 语句以分号结尾。练习文件：D:\pythonstudy\day7\，PDF：D:\pythonstudy\day7\day7_summary.pdf。
